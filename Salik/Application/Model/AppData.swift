@@ -82,6 +82,7 @@ class AppData: NSObject {
         
         order_id = -1;
         
+        
     }
     
 

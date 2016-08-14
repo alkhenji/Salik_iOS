@@ -108,11 +108,11 @@ class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFi
     }
     
     @IBAction func onMap(sender: UIButton){
-        if appData.order_location_address == "" {
+        if appData.order_location_address == "" || appData.order_current_location == nil{
             let alertController = appController.showAlert("Warning!", message: "Sorry, You can\' t open map because your location was disabled. Please enter your location manually.")
             self.presentViewController(alertController, animated: true, completion: nil)
             return
-        } else{
+        } else {
             let mapViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MapViewController") as! MapViewController
             self.navigationController?.pushViewController(mapViewController, animated: true)
         }

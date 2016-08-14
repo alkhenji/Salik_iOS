@@ -2,8 +2,8 @@
 //  MapViewController.swift
 //  Salik
 //
-//  Created by ME on 6/9/16.
-//  Copyright © 2016 com. All rights reserved.
+//  Created by Rob Mans on 6/9/16.
+//  Copyright © 2016 Salik. All rights reserved.
 //
 
 import UIKit
@@ -40,7 +40,7 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, GMSMapVi
     }
     
     func initData(){
-
+        
     }
     
     func initView(){
