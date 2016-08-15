@@ -132,15 +132,18 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, GMSMapVi
     }
     
     func mapView(mapView: GMSMapView, didTapAtCoordinate coordinate: CLLocationCoordinate2D) {
-//        setMaker(coordinate)
         reverseGeocodeCoordinate(coordinate)
+        appData.order_location_latitude = coordinate.latitude
+        appData.order_location_longitude = coordinate.longitude
+        
     }
     
     func didTapMyLocationButtonForMapView(mapView: GMSMapView) -> Bool {
         mapView.camera = GMSCameraPosition(target: self.appData.order_current_location, zoom: 15, bearing: 0, viewingAngle: 0)
 
-//        setMaker(self.appData.user_current_location)
         reverseGeocodeCoordinate(self.appData.order_current_location)
+        appData.order_location_latitude = appData.order_current_location.latitude
+        appData.order_location_longitude = appData.order_current_location.longitude
         return true
     }
 

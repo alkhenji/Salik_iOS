@@ -224,11 +224,20 @@ class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFi
     func placeSelected(place: Place) {
         appData.order_location_address = place.desc
         self.appController.setUserDefault(ORDER_LOCATION_ADDRESS, val: place.desc)
+        
         self.gpaViewController.gpaViewController.searchBar.text = place.desc
         
+        place.getDetails{details in
+            print(details.latitude)
+            print(details.longitude)
+            
+            self.appData.order_location_latitude = details.latitude;
+            self.appData.order_location_longitude = details.longitude;
+        }
     }
     
     func placeViewClosed() {
+    
         self.gpaViewController.gpaViewController.searchBar.text = ""
         self.gpaViewController.gpaViewController.tableView.hidden = true
          dismissViewControllerAnimated(true, completion: nil)
