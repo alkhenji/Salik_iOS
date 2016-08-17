@@ -122,18 +122,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         let rootViewController = self.window!.rootViewController as! UINavigationController
         rootViewController.pushViewController(viewController, animated: true)
         
-//        let orderVC = self.window?.rootViewController?.storyboard?.instantiateViewControllerWithIdentifier("OrderViewController") as! OrderViewController
-//        orderVC.stopTimer()
-        
-
     }
     
     func hideConfirmViewController(){
         let rootViewController = self.window!.rootViewController as! UINavigationController
         rootViewController.popViewControllerAnimated(true)
-        
-//        let orderVC = self.window?.rootViewController?.storyboard?.instantiateViewControllerWithIdentifier("OrderViewController") as! OrderViewController
-//        orderVC.startTimer()
+
     }
     
     

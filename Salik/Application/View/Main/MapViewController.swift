@@ -68,8 +68,10 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, GMSMapVi
         let coordinate: CLLocationCoordinate2D = CLLocationCoordinate2DMake(Double(latitude)!, Double(longitude)!)
         driverMaker.position = coordinate
         driverMaker.appearAnimation = kGMSMarkerAnimationPop
-        driverMaker.title = String(driver[DRIVER_NAME])
+        let driver_name : String = driver[DRIVER_NAME] as! String
+        driverMaker.title = "Driver(" + driver_name + ")"
         driverMaker.snippet = String(driver[DRIVER_LOCATION_ADDRESS]!)
+        
         
         driverMaker.map = mapView
         

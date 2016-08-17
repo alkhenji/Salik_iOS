@@ -9,8 +9,7 @@ import UIKit
 import Foundation
 
     //Google API Key
-//    let GOOGLE_MAP_API_KEY = "AIzaSyCBK7r5sI-fzFKymy0hrTBV7L1QX00xPpU"
-    let GOOGLE_MAP_API_KEY = "AIzaSyCBK7r5sI-fzFKymy0hrTBV7L1QX00xPpU"
+    let GOOGLE_MAP_API_KEY = "AIzaSyDNDwb_52LV8q1L5aAp36HReB_QouZ3-Xc"
     let GOOGLE_PLYA_SERVICE_KEY = "AIzaSyCB4nwxbd99-jHkw_C6Nk1q8J73EnugHAs"
     
     //API URL
