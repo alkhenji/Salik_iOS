@@ -47,6 +47,9 @@
 		04FB243C1D079F1000D4C522 /* constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FB243B1D079F1000D4C522 /* constant.swift */; };
 		0AB5F29F8FFB88D26F0B26C8 /* Pods_Salik.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B8AF720A878286F28493BD /* Pods_Salik.framework */; };
 		CDD032D28EC93710A243A163 /* Pods_SalikTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 871C1471EAFF36F3CE6F28A3 /* Pods_SalikTests.framework */; };
+		CE6CEE721D84486400EAF2A8 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = CE6CEE6F1D84486400EAF2A8 /* back.png */; };
+		CE6CEE731D84486400EAF2A8 /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = CE6CEE701D84486400EAF2A8 /* next.png */; };
+		CE6CEE741D84486400EAF2A8 /* raster-1.png in Resources */ = {isa = PBXBuildFile; fileRef = CE6CEE711D84486400EAF2A8 /* raster-1.png */; };
 		E75231DD16D35CF4EF19D1BA /* Pods_SalikUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0825F89651799C7704DE365F /* Pods_SalikUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -124,6 +127,9 @@
 		BA33570E47F09837597E701F /* Pods-SalikUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SalikUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SalikUITests/Pods-SalikUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C5B8AF720A878286F28493BD /* Pods_Salik.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Salik.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD374E62841884B134E472F6 /* Pods-SalikUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SalikUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SalikUITests/Pods-SalikUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		CE6CEE6F1D84486400EAF2A8 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		CE6CEE701D84486400EAF2A8 /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
+		CE6CEE711D84486400EAF2A8 /* raster-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "raster-1.png"; sourceTree = "<group>"; };
 		EBC22C9C5E98AAA7E77EC24C /* Pods-SalikTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SalikTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SalikTests/Pods-SalikTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -302,6 +308,9 @@
 		04C628FE1D06235F007B68F6 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				CE6CEE6F1D84486400EAF2A8 /* back.png */,
+				CE6CEE701D84486400EAF2A8 /* next.png */,
+				CE6CEE711D84486400EAF2A8 /* raster-1.png */,
 				04A4D5041D212FDB00FF9D64 /* delivery.png */,
 				04C6291D1D0644E7007B68F6 /* top_image@2x.png */,
 				045C2D3E1D09C390005D910A /* icon_close@2x.png */,
@@ -494,6 +503,7 @@
 			files = (
 				04C629111D063542007B68F6 /* check@2x.png in Resources */,
 				04C6291A1D063607007B68F6 /* logo@2x.png in Resources */,
+				CE6CEE721D84486400EAF2A8 /* back.png in Resources */,
 				04C6291E1D0644E7007B68F6 /* top_image@2x.png in Resources */,
 				04A1F0541D30CD1E00EB0998 /* vip@2x.png in Resources */,
 				04A4D5051D212FDB00FF9D64 /* delivery.png in Resources */,
@@ -503,11 +513,13 @@
 				04C629151D063542007B68F6 /* narrow@2x.png in Resources */,
 				04C628D01D061DF5007B68F6 /* Assets.xcassets in Resources */,
 				04C628CE1D061DF5007B68F6 /* Main.storyboard in Resources */,
+				CE6CEE731D84486400EAF2A8 /* next.png in Resources */,
 				04C629121D063542007B68F6 /* economy@2x.png in Resources */,
 				045C2D411D0A2901005D910A /* map_pin@2x.png in Resources */,
 				04C629131D063542007B68F6 /* logo_rect@2x.png in Resources */,
 				045C2D3F1D09C390005D910A /* icon_close@2x.png in Resources */,
 				04A4D52A1D21DD6500FF9D64 /* GooglePlacesAutocomplete.xib in Resources */,
+				CE6CEE741D84486400EAF2A8 /* raster-1.png in Resources */,
 				0471BD481D18416800429FD4 /* icon_back@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
