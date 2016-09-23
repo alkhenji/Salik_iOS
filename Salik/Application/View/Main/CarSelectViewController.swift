@@ -25,17 +25,15 @@ class CarSelectViewController: BaseViewController, UICollectionViewDelegate, UIC
     
     func initUI(){
         self.collectionView.backgroundColor = UIColor.whiteColor()
-
     }
     
     //MARK: Custom Action
     @IBAction func next(sender: UIButton) {
         if appData.selected_car_index == -1 {
-
             let alertController = appController.showAlert("Warning!", message: "Please select your ride.")
             self.presentViewController(alertController, animated: true, completion: nil)
             return
-        } else{
+        } else {
             
             let nextViewController = self.storyboard!.instantiateViewControllerWithIdentifier("UserInfoViewController") as! UserInfoViewController
             pushFromLeft(nextViewController)
@@ -43,12 +41,15 @@ class CarSelectViewController: BaseViewController, UICollectionViewDelegate, UIC
         
     }
     
+    
     // MARK: UICollectionViewDelegateFlowLayout
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
         var cellSize: CGSize!
         
-        let kCellForRow: CGFloat = 2
+        // Please if you want to fit more cars, change numbers here for grid
+        
+        let kCellForRow: CGFloat = 1
         let kCellForLine: CGFloat = 2
         
         let width: CGFloat = (collectionView.frame.size.width - collectionView.contentInset.left - collectionView.contentInset.right - 10)/kCellForRow
@@ -72,15 +73,19 @@ class CarSelectViewController: BaseViewController, UICollectionViewDelegate, UIC
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         var cell: CarCollectionViewCell!
+        
         cell = collectionView.dequeueReusableCellWithReuseIdentifier("carCollectionViewCell", forIndexPath: indexPath) as! CarCollectionViewCell
+        
         cell.car_image.image = UIImage(named: appData.car_info[indexPath.row]["car_image"]!)
+        
         cell.car_name.text = appData.car_info[indexPath.row]["car_type"]
+        
 //        cell.car_image.image = UIImage(named: appData.car_image[indexPath.row])
 //        cell.car_name.text = appData.cars[indexPath.row]["car_type_name"]
 
         if indexPath.row == appData.selected_car_index {
             cell.setBoarder()
-        } else{
+        } else {
             cell.resetBorder()
         }
         
@@ -94,32 +99,35 @@ class CarSelectViewController: BaseViewController, UICollectionViewDelegate, UIC
         appData.selected_car_index = indexPath.row
         self.collectionView.reloadData()
         
-        initDeliveryView()
+//        initDeliveryView()
         
     }
     
-    @IBAction func deliveryAction(sender: UIButton) {
-        initCollectionView()
-        appData.isSelectedDeliery = !(appData.isSelectedDeliery)
-        if (appData.isSelectedDeliery == true) {
-            setBorderView()
-            appData.selected_car_index = 4 //4 is delivery id
-        } else{
-            resetBorderView()
-        }
-    }
+//    @IBAction func deliveryAction(sender: UIButton) {
+//        initCollectionView()
+//        appData.isSelectedDeliery = !(appData.isSelectedDeliery)
+//        if (appData.isSelectedDeliery == true) {
+//            setBorderView()
+//            appData.selected_car_index = 4 //4 is delivery id
+//        } else{
+//            resetBorderView()
+//        }
+//    }
     
     func setBorderView() {
-         appController.setBorderView(deliveryView, color: UIColor.blackColor(), width: 2.0)
+//         appController.setBorderView(deliveryView, color: UIColor.blackColor(), width: 2.0)
     }
     
     func resetBorderView() {
-        appController.setBorderView(deliveryView, color: UIColor.blackColor(), width: 0.0)
+//        appController.setBorderView(deliveryView, color: UIColor.blackColor(), width: 0.0)
     }
     
     func initCollectionView() {
         appData.isSelectedCar = false
-        appData.selected_car_index = -1
+        
+//        if (appData.selected_car_index > -1){
+//            appData.selected_car_index = -1
+//        }
         self.collectionView.reloadData()
     }
     
@@ -129,7 +137,6 @@ class CarSelectViewController: BaseViewController, UICollectionViewDelegate, UIC
     }
 
     func respondToSwipeGesture(gesture: UIGestureRecognizer) {
-        
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             
             switch swipeGesture.direction {
@@ -138,8 +145,8 @@ class CarSelectViewController: BaseViewController, UICollectionViewDelegate, UIC
             case UISwipeGestureRecognizerDirection.Down:
                 print("Swiped down")
             case UISwipeGestureRecognizerDirection.Left:
+//                initCollectionView()
                 popFromRight()
-                appData.selected_car_index = -1
             case UISwipeGestureRecognizerDirection.Up:
                 print("Swiped up")
             default:

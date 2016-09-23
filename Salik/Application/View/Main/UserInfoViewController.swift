@@ -247,8 +247,8 @@ class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFi
         locationTextField.text = ""
         phoneTextField.text = ""
         commonTextField.text = ""
-        appData.selected_car_index = -1;
-        appData.isSelectedDeliery = false
+        //appData.selected_car_index = -1;
+        //appData.isSelectedDeliery = false
     }
     
     

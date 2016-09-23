@@ -30,7 +30,6 @@
 		04C629121D063542007B68F6 /* economy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C6290A1D063542007B68F6 /* economy@2x.png */; };
 		04C629131D063542007B68F6 /* logo_rect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C6290B1D063542007B68F6 /* logo_rect@2x.png */; };
 		04C629151D063542007B68F6 /* narrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C6290D1D063542007B68F6 /* narrow@2x.png */; };
-		04C629161D063542007B68F6 /* suv@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C6290E1D063542007B68F6 /* suv@2x.png */; };
 		04C629181D063542007B68F6 /* vvip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C629101D063542007B68F6 /* vvip@2x.png */; };
 		04C6291A1D063607007B68F6 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C629191D063607007B68F6 /* logo@2x.png */; };
 		04C6291C1D064436007B68F6 /* OrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C6291B1D064436007B68F6 /* OrderViewController.swift */; };
@@ -47,6 +46,7 @@
 		04FB243C1D079F1000D4C522 /* constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FB243B1D079F1000D4C522 /* constant.swift */; };
 		0AB5F29F8FFB88D26F0B26C8 /* Pods_Salik.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B8AF720A878286F28493BD /* Pods_Salik.framework */; };
 		CDD032D28EC93710A243A163 /* Pods_SalikTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 871C1471EAFF36F3CE6F28A3 /* Pods_SalikTests.framework */; };
+		CE4E12411D92F579007D2C13 /* suv2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE4E12401D92F579007D2C13 /* suv2@2x.png */; };
 		CE6CEE721D84486400EAF2A8 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = CE6CEE6F1D84486400EAF2A8 /* back.png */; };
 		CE6CEE731D84486400EAF2A8 /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = CE6CEE701D84486400EAF2A8 /* next.png */; };
 		CE6CEE741D84486400EAF2A8 /* raster-1.png in Resources */ = {isa = PBXBuildFile; fileRef = CE6CEE711D84486400EAF2A8 /* raster-1.png */; };
@@ -100,7 +100,6 @@
 		04C6290A1D063542007B68F6 /* economy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "economy@2x.png"; sourceTree = "<group>"; };
 		04C6290B1D063542007B68F6 /* logo_rect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_rect@2x.png"; sourceTree = "<group>"; };
 		04C6290D1D063542007B68F6 /* narrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "narrow@2x.png"; sourceTree = "<group>"; };
-		04C6290E1D063542007B68F6 /* suv@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "suv@2x.png"; sourceTree = "<group>"; };
 		04C629101D063542007B68F6 /* vvip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vvip@2x.png"; sourceTree = "<group>"; };
 		04C629191D063607007B68F6 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
 		04C6291B1D064436007B68F6 /* OrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderViewController.swift; sourceTree = "<group>"; };
@@ -127,6 +126,7 @@
 		BA33570E47F09837597E701F /* Pods-SalikUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SalikUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SalikUITests/Pods-SalikUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C5B8AF720A878286F28493BD /* Pods_Salik.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Salik.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD374E62841884B134E472F6 /* Pods-SalikUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SalikUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SalikUITests/Pods-SalikUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		CE4E12401D92F579007D2C13 /* suv2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "suv2@2x.png"; sourceTree = "<group>"; };
 		CE6CEE6F1D84486400EAF2A8 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		CE6CEE701D84486400EAF2A8 /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
 		CE6CEE711D84486400EAF2A8 /* raster-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "raster-1.png"; sourceTree = "<group>"; };
@@ -315,13 +315,13 @@
 				04C6291D1D0644E7007B68F6 /* top_image@2x.png */,
 				045C2D3E1D09C390005D910A /* icon_close@2x.png */,
 				0471BD471D18416800429FD4 /* icon_back@2x.png */,
+				CE4E12401D92F579007D2C13 /* suv2@2x.png */,
 				04C629191D063607007B68F6 /* logo@2x.png */,
 				045C2D401D0A2901005D910A /* map_pin@2x.png */,
 				04C629091D063542007B68F6 /* check@2x.png */,
 				04C6290A1D063542007B68F6 /* economy@2x.png */,
 				04C6290B1D063542007B68F6 /* logo_rect@2x.png */,
 				04C6290D1D063542007B68F6 /* narrow@2x.png */,
-				04C6290E1D063542007B68F6 /* suv@2x.png */,
 				04A1F0531D30CD1E00EB0998 /* vip@2x.png */,
 				04C629101D063542007B68F6 /* vvip@2x.png */,
 			);
@@ -508,7 +508,6 @@
 				04A1F0541D30CD1E00EB0998 /* vip@2x.png in Resources */,
 				04A4D5051D212FDB00FF9D64 /* delivery.png in Resources */,
 				04C629181D063542007B68F6 /* vvip@2x.png in Resources */,
-				04C629161D063542007B68F6 /* suv@2x.png in Resources */,
 				04C628D31D061DF5007B68F6 /* LaunchScreen.storyboard in Resources */,
 				04C629151D063542007B68F6 /* narrow@2x.png in Resources */,
 				04C628D01D061DF5007B68F6 /* Assets.xcassets in Resources */,
@@ -518,6 +517,7 @@
 				045C2D411D0A2901005D910A /* map_pin@2x.png in Resources */,
 				04C629131D063542007B68F6 /* logo_rect@2x.png in Resources */,
 				045C2D3F1D09C390005D910A /* icon_close@2x.png in Resources */,
+				CE4E12411D92F579007D2C13 /* suv2@2x.png in Resources */,
 				04A4D52A1D21DD6500FF9D64 /* GooglePlacesAutocomplete.xib in Resources */,
 				CE6CEE741D84486400EAF2A8 /* raster-1.png in Resources */,
 				0471BD481D18416800429FD4 /* icon_back@2x.png in Resources */,

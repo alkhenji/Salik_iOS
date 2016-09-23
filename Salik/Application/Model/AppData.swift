@@ -18,9 +18,6 @@ class AppData: NSObject {
         return Static.instance
     }
     
-
-
-    
     var car_info: [[String : String]]!
     var car_image = [String]()
     var selected_car_index: Int!
@@ -56,20 +53,21 @@ class AppData: NSObject {
             ],
             [
                 "car_type": "SUV(QAR 80)",
-                "car_image" : "suv"
+                "car_image" : "suv2"
             ],
-            [
-                "car_type": "VIP(QAR 150)",
-                "car_image" : "vip"
-            ],
-            [
-                "car_type": "VVIP(QAR 250)",
-                "car_image" : "vvip"
-            ],
+            // Please if you need more cars, uncomment the below:
+//            [
+//                "car_type": "VIP(QAR 150)",
+//                "car_image" : "vip"
+//            ],
+//            [
+//                "car_type": "VVIP(QAR 250)",
+//                "car_image" : "vvip"
+//            ],
 
         ]
         
-        car_image = ["economy", "suv", "vip", "vvip"]
+        car_image = ["economy", "suv2"]//, "vip", "vvip"]
   
         
         selected_car_index = -1

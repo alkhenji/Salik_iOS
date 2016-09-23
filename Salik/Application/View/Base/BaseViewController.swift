@@ -60,7 +60,6 @@ class BaseViewController: UIViewController {
         self.navigationController!.view.layer.addAnimation(transition, forKey: kCATransition)
         self.navigationController!.popViewControllerAnimated(true)
 
-
     }
     
     
