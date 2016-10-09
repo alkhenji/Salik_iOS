@@ -834,8 +834,8 @@
 			baseConfigurationReference = 50CE34F6C4964212BB2DCE98 /* Pods-Salik.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Host Internet Services Dot Qa (3RRZ7XU73D)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Host Internet Services Dot Qa (3RRZ7XU73D)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = Salik/Info.plist;
@@ -843,7 +843,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.salik;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "83ff2833-6fc1-418e-9b51-1ecdb0f049e8";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -852,8 +852,8 @@
 			baseConfigurationReference = 2E55D3B3039734E04C110B0E /* Pods-Salik.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Host Internet Services Dot Qa (3RRZ7XU73D)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Host Internet Services Dot Qa (3RRZ7XU73D)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = Salik/Info.plist;
@@ -861,7 +861,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.salik;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "83ff2833-6fc1-418e-9b51-1ecdb0f049e8";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

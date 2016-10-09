@@ -52,7 +52,9 @@ class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFi
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UserInfoViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
-        phoneTextField.keyboardType = UIKeyboardType.DecimalPad
+        phoneTextField.keyboardType = UIKeyboardType.NumberPad
+        phoneTextField.returnKeyType = UIReturnKeyType.Done
+        
     }
     
     func initUI(){
@@ -101,7 +103,7 @@ class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFi
             let alertController = appController.showAlert("Warning!", message: "Enter a valid phone number.")
             self.presentViewController(alertController, animated: true, completion: nil)
             return
-        } else{
+        } else {
             getUserInfo()
             order()
         }

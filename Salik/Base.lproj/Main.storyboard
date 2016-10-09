@@ -372,6 +372,14 @@ EFN0YXJ0A
                                                                     <outlet property="delegate" destination="wAi-o3-a6s" id="9BE-3m-JmJ"/>
                                                                 </connections>
                                                             </textField>
+                                                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="wBd-JN-eBU">
+                                                                <rect key="frame" x="237" y="30" width="35" height="35"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                                <state key="normal" backgroundImage="raster-1.png"/>
+                                                                <connections>
+                                                                    <action selector="onMap:" destination="wAi-o3-a6s" eventType="touchUpInside" id="4KS-P2-Gzc"/>
+                                                                </connections>
+                                                            </button>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your Phone Number" textAlignment="natural" minimumFontSize="14" id="JeG-dk-I7N">
                                                                 <rect key="frame" x="8" y="136" width="173" height="30"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -384,14 +392,6 @@ EFN0YXJ0A
                                                                     <outlet property="delegate" destination="wAi-o3-a6s" id="Wxx-FV-rKq"/>
                                                                 </connections>
                                                             </textField>
-                                                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="wBd-JN-eBU">
-                                                                <rect key="frame" x="237" y="30" width="35" height="35"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                                                <state key="normal" backgroundImage="raster-1.png"/>
-                                                                <connections>
-                                                                    <action selector="onMap:" destination="wAi-o3-a6s" eventType="touchUpInside" id="4KS-P2-Gzc"/>
-                                                                </connections>
-                                                            </button>
                                                         </subviews>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </view>
