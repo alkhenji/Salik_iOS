@@ -26,27 +26,27 @@ class BaseViewController: UIViewController {
     }
 
     // Change Status Bar Style
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
-    @IBAction func navToBack(sender: UIButton) {
+    @IBAction func navToBack(_ sender: UIButton) {
         if (self.isLodingBase == true) {
             return
         }
-        self.navigationController?.popViewControllerAnimated(true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func pushFromLeft(vc:UIViewController){
+    @IBAction func pushFromLeft(_ vc:UIViewController){
         let transition: CATransition = CATransition()
         let timeFunc : CAMediaTimingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         transition.duration = 0.25
         transition.timingFunction = timeFunc
         transition.type = kCATransitionPush
-        transition.subtype = kCATransitionFromLeft
+        transition.subtype = kCATransitionFromRight
         
-        self.navigationController!.view.layer.addAnimation(transition, forKey: kCATransition)        
-        self.navigationController!.pushViewController(vc, animated: false)
+        ////self.navigationController!.view.layer.add(transition, forKey: kCATransition)
+        self.navigationController!.pushViewController(vc, animated: true)
     }
     
     @IBAction func popFromRight(){
@@ -55,10 +55,10 @@ class BaseViewController: UIViewController {
         transition.duration = 0.45;
         transition.timingFunction = timeFunc
         transition.type = kCATransitionMoveIn;
-        transition.subtype = kCATransitionFromRight;
+        transition.subtype = kCATransitionFromLeft
         
-        self.navigationController!.view.layer.addAnimation(transition, forKey: kCATransition)
-        self.navigationController!.popViewControllerAnimated(true)
+        ///self.navigationController!.view.layer.add(transition, forKey: kCATransition)
+        self.navigationController!.popViewController(animated: true)
 
     }
     

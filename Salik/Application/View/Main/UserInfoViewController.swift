@@ -7,6 +7,38 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
+extension NSRange {
+    func range(for str: String) -> Range<String.Index>? {
+        guard location != NSNotFound else { return nil }
+
+        guard let fromUTFIndex = str.utf16.index(str.utf16.startIndex, offsetBy: location, limitedBy: str.utf16.endIndex) else { return nil }
+        guard let toUTFIndex = str.utf16.index(fromUTFIndex, offsetBy: length, limitedBy: str.utf16.endIndex) else { return nil }
+        guard let fromIndex = String.Index(fromUTFIndex, within: str) else { return nil }
+        guard let toIndex = String.Index(toUTFIndex, within: str) else { return nil }
+
+        return fromIndex ..< toIndex
+    }
+}
 
 class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFieldDelegate, GooglePlacesAutocompleteDelegate {
     
@@ -19,7 +51,9 @@ class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFi
     
     @IBOutlet weak var carImageView: UIImageView!
     @IBOutlet weak var carTypeLabel: UILabel!
-    
+
+    var contectYPos : CGFloat = 0.0
+    var bIsMapView : Bool = false
 
     var currentTextField: UITextField!
     
@@ -27,35 +61,56 @@ class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        contectYPos = self.contentView.frame.origin.y
+
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
 
         gpaViewController = GooglePlacesAutocomplete(
             apiKey: GOOGLE_PLYA_SERVICE_KEY,
-            placeType: .Address
+            placeType: .all
         )
 
         gpaViewController.placeDelegate = self
-        gpaViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: gpaViewController, action: #selector(NSStream.close))
+        gpaViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: gpaViewController, action: #selector(Stream.close))
+        gpaViewController.locationBias = LocationBias(latitude: 25.286106, longitude: 51.534817, radius: 10000)
 
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(CarSelectViewController.respondToSwipeGesture(_:)))
-        swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.right
         self.view.addGestureRecognizer(swipeLeft)
         
         self.initUI()
         self.initView()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         updateLocation()
+        bIsMapView = false
     }
     
     func initView(){
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UserInfoViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
-        phoneTextField.keyboardType = UIKeyboardType.NumberPad
-        phoneTextField.returnKeyType = UIReturnKeyType.Done
-        
+        phoneTextField.keyboardType = UIKeyboardType.numberPad
+        phoneTextField.returnKeyType = UIReturnKeyType.done
+        phoneTextField.delegate = self
+
+        let customView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 45))
+        let button = UIButton(frame: CGRect(x: self.view.frame.size.width - 60 , y: 0, width: 50, height: 45))
+        button.setTitle("Done", for: UIControlState.normal)
+        button.setTitleColor(UIColor.white, for: UIControlState.normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+
+        button.addTarget(self, action: #selector(dismissKeyboard) , for: UIControlEvents.touchUpInside) //addTarget(self, action: #selector(dismissKeyboard), forControlEvents: .TouchUpInside)
+        customView.addSubview(button)
+
+        customView.backgroundColor = UIColor.init(colorLiteralRed: 45.0/255.0, green: 190.0/255.0, blue: 221.0/255.0, alpha: 1.0)
+        phoneTextField.inputAccessoryView = customView
     }
+
+
     
     func initUI(){
         if appData.isSelectedCar == true {
@@ -66,6 +121,26 @@ class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFi
             carTypeLabel.text = "QAR (20)"
         }
 
+    }
+
+    func keyboardWillShow(notification: NSNotification) {
+        if !bIsMapView {
+             if self.contentView.frame.origin.y == contectYPos{
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                    self.contentView.frame.origin.y -= 110.0
+                })
+            }
+        }
+    }
+
+    func keyboardWillHide(notification: NSNotification) {
+        if !bIsMapView {
+             if self.contentView.frame.origin.y != contectYPos{
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                        self.contentView.frame.origin.y += 110.0
+                })
+            }
+        }
     }
 
     //Calls this function when the tap is recognized.
@@ -81,27 +156,29 @@ class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFi
     
     func getUserInfo() -> Void {
         appData.order_location_address = locationTextField.text
-        self.appController.setUserDefault(ORDER_LOCATION_ADDRESS, val: locationTextField.text!)
-        appData.user_phone_number = phoneTextField.text
-        self.appController.setUserDefault(ORDER_PHONE_NUMBER, val: phoneTextField.text!)
+        self.appController.setUserDefault(ORDER_LOCATION_ADDRESS, val: locationTextField.text! as AnyObject)
+        let onlyPhoneNumber:String = (phoneTextField.text?.replacingOccurrences(of: "+974 ", with: ""))!
+
+        appData.user_phone_number = onlyPhoneNumber
+        self.appController.setUserDefault(ORDER_PHONE_NUMBER, val: onlyPhoneNumber as AnyObject)
         appData.user_comment = commonTextField.text
     }
     
     
     //MARK: Custom Action
     
-    @IBAction func next(sender: UIButton) {
+    @IBAction func next(_ sender: UIButton) {
         if locationTextField.text!.isEmpty {
             let alertController = appController.showAlert("Warning!", message: "Enter your location.")
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true, completion: nil)
             return
         } else if phoneTextField.text!.isEmpty{
             let alertController = appController.showAlert("Warning!", message: "Enter your phone number.")
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true, completion: nil)
             return
         }else if !phoneValidat(){
             let alertController = appController.showAlert("Warning!", message: "Enter a valid phone number.")
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true, completion: nil)
             return
         } else {
             getUserInfo()
@@ -109,31 +186,32 @@ class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFi
         }
     }
     
-    @IBAction func onMap(sender: UIButton){
+    @IBAction func onMap(_ sender: UIButton){
         if appData.order_location_address == "" || appData.order_current_location == nil{
             let alertController = appController.showAlert("Warning!", message: "Sorry, You can\' t open map because your location was disabled. Please enter your location manually.")
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true, completion: nil)
             return
         } else {
-            let mapViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MapViewController") as! MapViewController
+            let mapViewController = self.storyboard!.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
             self.navigationController?.pushViewController(mapViewController, animated: true)
         }
     }
     
     func phoneValidat() -> Bool{
-        let phoneNumber:Int? = Int(phoneTextField.text!)
-        if phoneTextField.text!.characters.count != 8 || phoneNumber < 30000000 || phoneNumber > 79999999{
+        let onlyPhoneNumber:String = (phoneTextField.text?.replacingOccurrences(of: "+974 ", with: ""))!
+        let phoneNumber:Int? = Int(onlyPhoneNumber)
+
+        if onlyPhoneNumber.characters.count != 8 || phoneNumber < 30000000 || phoneNumber > 79999999 {
             return false
         }
-        
-        return true
 
+        return true
     }
     
     // MARK: Order
     
-    private func order(){
-                let window = UIApplication.sharedApplication().keyWindow!
+    fileprivate func order(){
+                let window = UIApplication.shared.keyWindow!
                 self.appController.showActivityIndicator(window)
         
                 let params: NSMutableDictionary = NSMutableDictionary()
@@ -158,42 +236,42 @@ class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFi
                 appController.httpRequest(API_ORDER, params: params, completion: {result in
         //            print("result \(result)")
         
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                         self.appController.hideActivityIndicator(window)
         
                     })
         
-                    let status: Int = result.objectForKey(STATUS) as!  Int
+                    let status: Int = result.object(forKey: STATUS) as!  Int
                     if status == 1 {
-                        self.appData.order_id = result.objectForKey(ORDER_ID) as! Int
-                        self.appController.setUserDefault(ORDER_ID, val: result.objectForKey(ORDER_ID)!)
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let nextViewController = self.storyboard!.instantiateViewControllerWithIdentifier("OrderViewController") as! OrderViewController
+                        self.appData.order_id = result.object(forKey: ORDER_ID) as! Int
+                        self.appController.setUserDefault(ORDER_ID, val: result.object(forKey: ORDER_ID)! as AnyObject)
+                        DispatchQueue.main.async {
+                            let nextViewController = self.storyboard!.instantiateViewController(withIdentifier: "OrderViewController") as! OrderViewController
                             self.pushFromLeft(nextViewController)
                         }
  
                     } else if status == 2{
-                        dispatch_async(dispatch_get_main_queue(), {
+                        DispatchQueue.main.async(execute: {
                             let alertController = self.appController.showAlert("Warning!", message: "You have already ordered!")
-                            self.presentViewController(alertController, animated: true, completion: nil)
+                            self.present(alertController, animated: true, completion: nil)
                             return
                         })
                     }
                     else if status == 0{
-                        dispatch_async(dispatch_get_main_queue(), {
+                        DispatchQueue.main.async(execute: {
                             let alertController = self.appController.showAlert("Warning!", message: "Sorry!, You can't order now. Please try again later.")
-                            self.presentViewController(alertController, animated: true, completion: nil)
+                            self.present(alertController, animated: true, completion: nil)
                             return
                         })
                     }
                     }, errors:{
-                        dispatch_async(dispatch_get_main_queue(), {
+                        DispatchQueue.main.async(execute: {
                             self.appController.hideActivityIndicator(window)
         
                         })
-                        dispatch_async(dispatch_get_main_queue(), {
+                        DispatchQueue.main.async(execute: {
                             let alertController = self.appController.showAlert("Error!", message: "Check your Internet connection!")
-                            self.presentViewController(alertController, animated: true, completion: nil)
+                            self.present(alertController, animated: true, completion: nil)
                             return
                         })
                 })
@@ -201,31 +279,55 @@ class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFi
     
     //MARK: TextField Delegate
  
-    
-    func textFieldDidBeginEditing(textField: UITextField) {
-        if textField == locationTextField {
-            presentViewController(gpaViewController, animated: true, completion: nil)
-            
-        }
+    @IBAction func OnBtnLocation(_ sender: AnyObject) {
+        self.dismissKeyboard()
+        bIsMapView = true
+        present(gpaViewController, animated: true, completion: nil)
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+       // if textField == locationTextField {
+        //    present(gpaViewController, animated: true, completion: nil)
+       // }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
         
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         return true
     }
-    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+        if (textField == phoneTextField) {
+
+            let currentText = textField.text ?? ""
+            guard let stringRange = range.range(for: currentText) else { return false }
+
+            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+
+            if updatedText.characters.count == 1{
+                phoneTextField.text = "+974 "
+            }else if updatedText.characters.count < 5 {
+                return false
+            }
+
+            return updatedText.characters.count <= 13
+        }
+        return true
+    }
+
+
     //GooglePlacesAutoComplete Delegate
-    func placesFound(places: [Place]) {
+    func placesFound(_ places: [Place]) {
         
     }
     
-    func placeSelected(place: Place) {
+    func placeSelected(_ place: Place) {
         appData.order_location_address = place.desc
-        self.appController.setUserDefault(ORDER_LOCATION_ADDRESS, val: place.desc)
+        self.appController.setUserDefault(ORDER_LOCATION_ADDRESS, val: place.desc as AnyObject)
         
         self.gpaViewController.gpaViewController.searchBar.text = place.desc
         
@@ -241,8 +343,8 @@ class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFi
     func placeViewClosed() {
     
         self.gpaViewController.gpaViewController.searchBar.text = ""
-        self.gpaViewController.gpaViewController.tableView.hidden = true
-         dismissViewControllerAnimated(true, completion: nil)
+        self.gpaViewController.gpaViewController.tableView.isHidden = true
+         dismiss(animated: true, completion: nil)
     }
     
     func initAppData(){
@@ -254,19 +356,20 @@ class UserInfoViewController: BaseViewController, UIScrollViewDelegate, UITextFi
     }
     
     
-    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+    func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
         
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             
             switch swipeGesture.direction {
-            case UISwipeGestureRecognizerDirection.Right:
+            case UISwipeGestureRecognizerDirection.right:
                 print("Swiped right")
-            case UISwipeGestureRecognizerDirection.Down:
-                print("Swiped down")
-            case UISwipeGestureRecognizerDirection.Left:
                 popFromRight()
                 initAppData()
-            case UISwipeGestureRecognizerDirection.Up:
+            case UISwipeGestureRecognizerDirection.down:
+                print("Swiped down")
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swiped left")
+            case UISwipeGestureRecognizerDirection.up:
                 print("Swiped up")
             default:
                 break

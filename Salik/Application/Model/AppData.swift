@@ -54,6 +54,9 @@ class AppData: NSObject {
             [
                 "car_type": "SUV(QAR 80)",
                 "car_image" : "suv2"
+            ], [
+                "car_type": "Click here to call and rent a car",
+                "car_image" : "car_rent"
             ],
             // Please if you need more cars, uncomment the below:
 //            [
@@ -67,7 +70,7 @@ class AppData: NSObject {
 
         ]
         
-        car_image = ["economy", "suv2"]//, "vip", "vvip"]
+        car_image = ["economy", "suv2","car_rent"]//, "vip", "vvip"]
   
         
         selected_car_index = -1

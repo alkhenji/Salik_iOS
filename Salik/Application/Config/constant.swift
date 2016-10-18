@@ -11,7 +11,10 @@ import Foundation
     //Google API Key
     let GOOGLE_MAP_API_KEY = "AIzaSyDNDwb_52LV8q1L5aAp36HReB_QouZ3-Xc"
     let GOOGLE_PLYA_SERVICE_KEY = "AIzaSyCB4nwxbd99-jHkw_C6Nk1q8J73EnugHAs"
-    
+    //AIzaSyBMYWkFc7zQfBksJGVUzhzR5c1S_ojhRnw
+    //let GOOGLE_PLYA_SERVICE_KEY = "AIzaSyBMYWkFc7zQfBksJGVUzhzR5c1S_ojhRnw"
+
+
     //API URL
 //    let SERVER_URL = "http://172.16.1.192:8080/Salik"
     let SERVER_URL = "http://salikappqatar.com/Salik/index.php"

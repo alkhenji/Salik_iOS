@@ -19,8 +19,8 @@ class OrderViewController: BaseViewController{
     
     @IBOutlet weak var minuteLabel: UILabel!
     @IBOutlet weak var secondLabel: UILabel!
-    var timer:NSTimer = NSTimer();
-    var startTime = NSTimeInterval()
+    var timer:Timer = Timer();
+    var startTime = TimeInterval()
     
     let params: NSMutableDictionary = NSMutableDictionary()
     
@@ -51,23 +51,23 @@ class OrderViewController: BaseViewController{
     }
     
     func startTimer() {
-        if (!timer.valid) {
-            timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(OrderViewController.timeUpdate), userInfo: nil, repeats: true)
-            startTime = NSDate.timeIntervalSinceReferenceDate()
+        if (!timer.isValid) {
+            timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(OrderViewController.timeUpdate), userInfo: nil, repeats: true)
+            startTime = Date.timeIntervalSinceReferenceDate
         }
 
         
     }
     
     func timeUpdate()  {
-        let currentTime = NSDate.timeIntervalSinceReferenceDate()
+        let currentTime = Date.timeIntervalSinceReferenceDate
         
         //Find the difference between current time and start time.
-        var elapsedTime: NSTimeInterval = currentTime - startTime
+        var elapsedTime: TimeInterval = currentTime - startTime
         
         //calculate the minutes in elapsed time.
         let minutes = UInt8(elapsedTime / 60.0)
-        elapsedTime -= (NSTimeInterval(minutes) * 60)
+        elapsedTime -= (TimeInterval(minutes) * 60)
         
         //calculate the seconds in elapsed time.
         let seconds = UInt8(elapsedTime)
@@ -87,7 +87,7 @@ class OrderViewController: BaseViewController{
     func stopTimer() {
         timer.invalidate()
         let alertController = self.appController.showAlert("Warning!", message: "Please contact support!")
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func initAppData(){
@@ -104,12 +104,12 @@ class OrderViewController: BaseViewController{
     
     //MARK: Custom Action
   
-    @IBAction func onCall(sender: UIButton) {
-        let url = NSURL(string: "tel://8000005")
-        UIApplication.sharedApplication().openURL(url!)
+    @IBAction func onCall(_ sender: UIButton) {
+        let url = URL(string: "tel://8000005")
+        UIApplication.shared.openURL(url!)
     }
     
-    @IBAction func onCancel(sender: UIButton) {
+    @IBAction func onCancel(_ sender: UIButton) {
         setParams()
         showConfirmDialog()
     }
@@ -120,64 +120,64 @@ class OrderViewController: BaseViewController{
     }
     
     func showConfirmDialog(){
-        let alertController = UIAlertController(title: "Order Cancel", message: "Are you sure?", preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "Yes", style: .Default) { (action) -> Void in
+        let alertController = UIAlertController(title: "Order Cancel", message: "Are you sure?", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Yes", style: .default) { (action) -> Void in
             self.orderCancel()
         }
-        let noAction = UIAlertAction(title:"No", style: .Default){ (action) -> Void in
+        let noAction = UIAlertAction(title:"No", style: .default){ (action) -> Void in
             
         }
         alertController.addAction(okAction)
         alertController.addAction(noAction)
         
         
-        presentViewController(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
 
     }
     
     func orderCancel(){
-        timer.invalidate()
+         timer.invalidate()
         
-        let window = UIApplication.sharedApplication().keyWindow!
+        let window = UIApplication.shared.keyWindow!
         self.appController.showActivityIndicator(window)
         
         appController.httpRequest(API_ORDER_CANCEL, params: params, completion: { result in
             
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 self.appController.hideActivityIndicator(window)
                 
             })
             
-            let status: Int = result.objectForKey(STATUS) as!  Int
+            let status: Int = result.object(forKey: STATUS) as!  Int
             if status == 1 {
                 self.initAppData()
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     self.goHome()
                     return
                 })
             } else{
             
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     let alertController = self.appController.showAlert("Error!", message: "Check your Internet connection!")
-                    self.presentViewController(alertController, animated: true, completion: nil)
+                    self.present(alertController, animated: true, completion: nil)
                     return
                 })
             }
             }, errors: {
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     self.appController.hideActivityIndicator(window)
                     
                 })
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     let alertController = self.appController.showAlert("Error!", message: "Check your Internet connection!")
-                    self.presentViewController(alertController, animated: true, completion: nil)
+                    self.present(alertController, animated: true, completion: nil)
                     return
                 })
         })
     }
     
     func orderConfirm(){
-        let nextViewController = self.storyboard!.instantiateViewControllerWithIdentifier("ConfirmViewController") as! ConfirmViewController
+        let nextViewController = self.storyboard!.instantiateViewController(withIdentifier: "ConfirmViewController") as! ConfirmViewController
         pushFromLeft(nextViewController)
     }
     

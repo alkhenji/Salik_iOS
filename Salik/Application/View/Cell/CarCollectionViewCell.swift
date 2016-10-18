@@ -27,14 +27,14 @@ class CarCollectionViewCell: UICollectionViewCell {
 
     
     func setTextColor(){
-        car_name.textColor = UIColor.blueColor();
+        car_name.textColor = UIColor.blue;
     }
     
     func setBoarder(){
-          AppController.sharedInstance.setBorderView(cellView, color: UIColor.blackColor(), width: 2.0)
+          AppController.sharedInstance.setBorderView(cellView, color: UIColor.black, width: 2.0)
     }
     
     func resetBorder(){
-        AppController.sharedInstance.setBorderView(cellView, color: UIColor.blackColor(), width: 0.0)
+        AppController.sharedInstance.setBorderView(cellView, color: UIColor.black, width: 0.0)
     }
 }

@@ -19,24 +19,23 @@ class ConfirmViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
-        
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         initUI()
     }
     
     func initUI() {
-        driver_name.text = appData.order_driver_info.objectForKey("driver_fullname") as? String
-        car_type.text = appData.order_driver_info.objectForKey("car_type") as? String
-        car_plate_number.text = appData.order_driver_info.objectForKey("car_plate_number") as? String
+        driver_name.text = appData.order_driver_info.object(forKey: "driver_fullname") as? String
+        car_type.text = appData.order_driver_info.object(forKey: "car_type") as? String
+        car_plate_number.text = appData.order_driver_info.object(forKey: "car_plate_number") as? String
         pick_location.text = self.appController.getUserDefault(ORDER_LOCATION_ADDRESS) as? String
         phone_number.text = self.appController.getUserDefault(ORDER_PHONE_NUMBER) as? String
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         
@@ -46,9 +45,9 @@ class ConfirmViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func onCall(sender: AnyObject) {
-        let url = NSURL(string: "tel://8000005")
-        UIApplication.sharedApplication().openURL(url!)
+    @IBAction func onCall(_ sender: AnyObject) {
+        let url = URL(string: "tel://8000005")
+        UIApplication.shared.openURL(url!)
     }
     
     func goHome() {

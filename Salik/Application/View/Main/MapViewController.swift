@@ -30,12 +30,13 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, GMSMapVi
         initView()
         addMakerForAllDriver()
     }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func onClose(sender: UIButton) {
+    @IBAction func onClose(_ sender: UIButton) {
         popFromRight()
     }
     
@@ -50,7 +51,7 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, GMSMapVi
     }
 
     
-    func setMaker(coordinate: CLLocationCoordinate2D){
+    func setMaker(_ coordinate: CLLocationCoordinate2D){
         marker.position = coordinate;
         marker.appearAnimation = kGMSMarkerAnimationPop
         marker.icon = UIImage(named: "map_pin")
@@ -60,17 +61,17 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, GMSMapVi
         mapView.selectedMarker = marker
     }
     
-    func addMakerForDriver(driver: Dictionary<String, AnyObject>){
+    func addMakerForDriver(_ driver: Dictionary<String, AnyObject>){
         let driverMaker = GMSMarker()
 
-        let latitude = String(driver[DRIVER_LOCATION_LATITUDE]!)
-        let longitude = String(driver[DRIVER_LOCATION_LONGITUDE]!)
+        let latitude = String(describing: driver[DRIVER_LOCATION_LATITUDE]!)
+        let longitude = String(describing: driver[DRIVER_LOCATION_LONGITUDE]!)
         let coordinate: CLLocationCoordinate2D = CLLocationCoordinate2DMake(Double(latitude)!, Double(longitude)!)
         driverMaker.position = coordinate
         driverMaker.appearAnimation = kGMSMarkerAnimationPop
         let driver_name : String = driver[DRIVER_NAME] as! String
         driverMaker.title = "Driver(" + driver_name + ")"
-        driverMaker.snippet = String(driver[DRIVER_LOCATION_ADDRESS]!)
+        driverMaker.snippet = String(describing: driver[DRIVER_LOCATION_ADDRESS]!)
         
         
         driverMaker.map = mapView
@@ -83,7 +84,7 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, GMSMapVi
         }
     }
     
-    func reverseGeocodeCoordinate(coordinate: CLLocationCoordinate2D) {
+    func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) {
         
         let geocoder = GMSGeocoder()
         
@@ -92,13 +93,13 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, GMSMapVi
                 
                 let lines = address.lines
                 print(lines)
-                self.addressLabel.text = lines!.joinWithSeparator(" ")
+                self.addressLabel.text = lines!.joined(separator: " ")
                 self.appData.order_location_address = self.addressLabel.text
-                self.appController.setUserDefault(ORDER_LOCATION_ADDRESS, val: lines!.joinWithSeparator(" "))
+                self.appController.setUserDefault(ORDER_LOCATION_ADDRESS, val: lines!.joined(separator: " ") as AnyObject)
 
-                UIView.animateWithDuration(0.25) {
+                UIView.animate(withDuration: 0.25, animations: {
                     self.view.layoutIfNeeded()
-                }
+                }) 
                 
                 self.setMaker(coordinate)
             }
@@ -106,18 +107,18 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, GMSMapVi
     }
     
     // MARK: - CLLocationManagerDelegate
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if status == .AuthorizedWhenInUse {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
             
             locationManager.startUpdatingLocation()
             
-            mapView.myLocationEnabled = true
+            mapView.isMyLocationEnabled = true
             mapView.settings.myLocationButton = true
             
         }
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             
             mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
@@ -129,18 +130,18 @@ class MapViewController: BaseViewController, CLLocationManagerDelegate, GMSMapVi
     }
     
     //MARK: GMSMapViewDelegate
-    func mapView(mapView: GMSMapView, idleAtCameraPosition position: GMSCameraPosition) {
+    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
 //        reverseGeocodeCoordinate(position.target)
     }
     
-    func mapView(mapView: GMSMapView, didTapAtCoordinate coordinate: CLLocationCoordinate2D) {
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         reverseGeocodeCoordinate(coordinate)
         appData.order_location_latitude = coordinate.latitude
         appData.order_location_longitude = coordinate.longitude
         
     }
     
-    func didTapMyLocationButtonForMapView(mapView: GMSMapView) -> Bool {
+    func didTapMyLocationButton(for mapView: GMSMapView) -> Bool {
         mapView.camera = GMSCameraPosition(target: self.appData.order_current_location, zoom: 15, bearing: 0, viewingAngle: 0)
 
         reverseGeocodeCoordinate(self.appData.order_current_location)

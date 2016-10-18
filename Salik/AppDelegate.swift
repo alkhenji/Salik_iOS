@@ -7,7 +7,6 @@
 //
 
 import UIKit
-//import IQKeyboardManagerSwift
 import GoogleMaps
 import AdSupport
 
@@ -21,10 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var appData: AppData = AppData.sharedInstance
     var storyBoard: UIStoryboard!
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-//        IQKeyboardManager.sharedManager().enable = true
+       // IQKeyboardManager.sharedManager().enable = true
+
+        sleep(2)
+
         GMSServices.provideAPIKey(GOOGLE_MAP_API_KEY)
         
         locationManager.delegate = self
@@ -33,8 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         
         //Notification setting
-        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
-        let pushNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
+        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
+        let pushNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
         application.registerUserNotificationSettings(pushNotificationSettings)
         application.registerForRemoteNotifications()
 
@@ -42,55 +43,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         return true
     }
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
     //MARK: Notification Delegate
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        let characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+
+       // let deviceTokenString: String = (String(data: deviceToken.base64EncodedData(), encoding: .utf8))!
+
+        let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+        print(deviceTokenString)
         
-        let deviceTokenString: String = (deviceToken.description as NSString)
-            .stringByTrimmingCharactersInSet(characterSet)
-            .stringByReplacingOccurrencesOfString( " ", withString: "") as String
-        
-        print("Device Token--->"+deviceTokenString)
+
+        print("Device Token---> "+deviceTokenString)
         appData.apns_id = deviceTokenString
     }
     
-    func application( application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError ) {
+    func application( _ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error ) {
         
         print( error.localizedDescription )
     }
     
  
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         print("USER_INFO--->\(userInfo)")
         
         let aps : NSDictionary = (userInfo["aps"] as? NSDictionary)!
 //        let alert = aps.objectForKey("alert") as! String
         
-        let info = aps.objectForKey("info") as! NSDictionary
+        let info = aps.object(forKey: "info") as! NSDictionary
         
-        let order_state = info.objectForKey("order_state") as! Int
+        let order_state = info.object(forKey: "order_state") as! Int
         if order_state == 2 {
             showConfirmViewController()
         } else if order_state == 1 {
@@ -99,24 +101,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             goHome()
         }
         
-        appData.order_driver_info = info.objectForKey("driver_info") as! NSDictionary
+        appData.order_driver_info = info.object(forKey: "driver_info") as! NSDictionary
       
     }
     
-    func showConfirmDialog(alert: String){
-        let alertController = UIAlertController(title: "Salik Notification", message: alert, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "OK", style: .Default) { (action) -> Void in
+    func showConfirmDialog(_ alert: String){
+        let alertController = UIAlertController(title: "Salik Notification", message: alert, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) -> Void in
             self.showConfirmViewController()
         }
         alertController.addAction(okAction)
         
         
-       self.window?.rootViewController?.presentViewController(alertController, animated: true, completion: nil)
+       self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
         
     }
     
     func showConfirmViewController(){
-        let viewController = self.window?.rootViewController?.storyboard?.instantiateViewControllerWithIdentifier("ConfirmViewController") as! ConfirmViewController
+        let viewController = self.window?.rootViewController?.storyboard?.instantiateViewController(withIdentifier: "ConfirmViewController") as! ConfirmViewController
         
         // Then push that view controller onto the navigation stack
         let rootViewController = self.window!.rootViewController as! UINavigationController
@@ -126,14 +128,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func hideConfirmViewController(){
         let rootViewController = self.window!.rootViewController as! UINavigationController
-        rootViewController.popViewControllerAnimated(true)
+        rootViewController.popViewController(animated: true)
 
     }
     
     
     func goHome() {
         let rootViewController = self.window!.rootViewController as! UINavigationController
-        rootViewController.popToRootViewControllerAnimated(true)
+        rootViewController.popToRootViewController(animated: true)
     }
     
     func sign(){
@@ -147,10 +149,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         appController.httpRequest(API_SIGN, params: params, completion: {
             result in
             
-                let status: Int = result.objectForKey(STATUS) as!  Int
+                let status: Int = result.object(forKey: STATUS) as!  Int
                 if status == 1 {
                     
-                    let drivers: [Dictionary<String,AnyObject>]! = result.objectForKey(DRIVERS) as! [Dictionary<String,AnyObject>]!
+                    let drivers: [Dictionary<String,AnyObject>]! = result.object(forKey: DRIVERS) as! [Dictionary<String,AnyObject>]!
                     self.appData.driver_info = drivers
 
                 }
@@ -160,7 +162,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         })
     }
     
-    func reverseGeocodeCoordinate(coordinate: CLLocationCoordinate2D) {
+    func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) {
         
         let geocoder = GMSGeocoder()
         
@@ -169,8 +171,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 
                 let lines = address.lines
                 print("LocationAddress\(lines)")
-                self.appData.order_location_address = lines!.joinWithSeparator(" ")
-                self.appController.setUserDefault(ORDER_LOCATION_ADDRESS, val: lines!.joinWithSeparator(" "))
+                self.appData.order_location_address = lines!.joined(separator: " ")
+                self.appController.setUserDefault(ORDER_LOCATION_ADDRESS, val: lines!.joined(separator: " ") as AnyObject)
 
                 self.appData.user_city = address.locality
 //                self.appData.order_location_latitude = 25.2854
@@ -183,15 +185,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     //MARK: CLLocationManagerDelegate
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if status == .AuthorizedWhenInUse {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
             
             locationManager.startUpdatingLocation()
             
         }
     }
 
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             print(location)
             appData.order_current_location = location.coordinate
@@ -254,7 +256,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 //        self.sign()
 //    }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error while updating location " + error.localizedDescription)
     }
 }

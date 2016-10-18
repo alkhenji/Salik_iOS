@@ -19,12 +19,16 @@ class WelcomeViewController: BaseViewController {
         super.viewDidLoad()
         
     }
+
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.default
+    }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         
@@ -34,9 +38,9 @@ class WelcomeViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
        
-    @IBAction func next(sender: UIButton) {
+    @IBAction func next(_ sender: UIButton) {
         
-        let carSelectViewController = self.storyboard!.instantiateViewControllerWithIdentifier("CarSelectViewController") as! CarSelectViewController
+        let carSelectViewController = self.storyboard!.instantiateViewController(withIdentifier: "CarSelectViewController") as! CarSelectViewController
         
         pushFromLeft(carSelectViewController)
 
